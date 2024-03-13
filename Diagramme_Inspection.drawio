@@ -1,0 +1,49 @@
+<mxfile host="app.diagrams.net" modified="2024-03-13T17:59:59.474Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36" etag="L8uyC0dMWlK5ImKLaMCV" version="24.0.6" type="device">
+  <diagram name="Page-1" id="oNcq2HxvRCfXFwZaicF9">
+    <mxGraphModel dx="1434" dy="796" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="6QfTJraECE7hucvtJXRc-2" value="Inspection" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="260" y="60" width="290" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="6QfTJraECE7hucvtJXRc-3" value="ID Serial&amp;nbsp; &amp;nbsp;PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="6QfTJraECE7hucvtJXRc-2" vertex="1">
+          <mxGeometry y="26" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="6QfTJraECE7hucvtJXRc-4" value="timestamp date_debut NN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="6QfTJraECE7hucvtJXRc-2" vertex="1">
+          <mxGeometry y="52" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="6QfTJraECE7hucvtJXRc-5" value="timestamp date_fin NN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="6QfTJraECE7hucvtJXRc-2" vertex="1">
+          <mxGeometry y="78" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="M63siKFErZhxTqaW6tXy-1" value="VARCHAR(100) vehicule_utilise NN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6QfTJraECE7hucvtJXRc-2">
+          <mxGeometry y="104" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="M63siKFErZhxTqaW6tXy-2" value="&amp;nbsp;employe_vehicule VARCHAR(100) NN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6QfTJraECE7hucvtJXRc-2">
+          <mxGeometry y="130" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="M63siKFErZhxTqaW6tXy-3" value="kilometrage_debut INTEGER NN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6QfTJraECE7hucvtJXRc-2">
+          <mxGeometry y="156" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="M63siKFErZhxTqaW6tXy-4" value="kilometrage_fin INTEGER NN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6QfTJraECE7hucvtJXRc-2">
+          <mxGeometry y="182" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="M63siKFErZhxTqaW6tXy-5" value="&amp;nbsp;profileur_laser_utilise VARCHAR(100)&amp;nbsp; NN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6QfTJraECE7hucvtJXRc-2">
+          <mxGeometry y="208" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="M63siKFErZhxTqaW6tXy-6" value="employe_profileur_laser VARCHAR(100) NN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6QfTJraECE7hucvtJXRc-2">
+          <mxGeometry y="234" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="M63siKFErZhxTqaW6tXy-7" value="voie_routiere_inspectee INTEGER NN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6QfTJraECE7hucvtJXRc-2">
+          <mxGeometry y="260" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="M63siKFErZhxTqaW6tXy-8" value="chemin_fichier_donnees VARCHAR(512) NN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6QfTJraECE7hucvtJXRc-2">
+          <mxGeometry y="286" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="M63siKFErZhxTqaW6tXy-21" value="nom_fichier_donnees VARCHAR(18) NN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6QfTJraECE7hucvtJXRc-2">
+          <mxGeometry y="308" width="290" height="22" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
