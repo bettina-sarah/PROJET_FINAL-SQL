@@ -18,7 +18,12 @@
 
 
 ### REQUETES
+## 
 # Emeric: 1 et 4 + requete 7
 # Frank: 5 et 6 + requete 7
-# Bettina: 2 et 3 + requete 7
-# Baris: requete 7 3 fois
+# Bettina: 2 et 3 + requete 7 avec une vue implementé
+# Baris: requete 7 * 3 fois
+
+# sequence a faire pour le nom_fichier
+# trigger & fonction pour poste & departement
+
