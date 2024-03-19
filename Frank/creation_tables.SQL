@@ -29,20 +29,20 @@ CREATE TABLE Profileur_laser(
 
 CREATE TABLE Inspection_laser(
     id                      SERIAL      PRIMARY KEY,
-    employe_id              SERIAL      NOT NULL,
+    employe_id              INTEGER      NOT NULL,
     profileur_laser_id      CHAR(16)    NOT NULL      
 );
 
 CREATE TABLE liste_inspection_laser(
     id                      SERIAL      PRIMARY KEY,
-    inspection_id           SERIAL      NOT NULL,
-    inpsection_laser_id     SERIAL      NOT NULL      
+    inspection_id           INTEGER      NOT NULL,
+    inpsection_laser_id     INTEGER      NOT NULL      
 );
 
 CREATE TABLE liste_inspection_troncon(
     id                      SERIAL      PRIMARY KEY,
-    inspection_id           SERIAL      NOT NULL,
-    troncon_id              SERIAL      NOT NULL,
+    inspection_id           INTEGER      NOT NULL,
+    troncon_id              INTEGER      NOT NULL,
     voie                    INTEGER     NOT NULL      
 );
 
