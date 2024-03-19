@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS Departement CASCADE;
 DROP TABLE IF EXISTS Poste CASCADE;
 DROP TABLE IF EXISTS Vehicule CASCADE;
 
-DROP TYPE IF EXISTS genre_employe;
+DROP TYPE IF EXISTS GENDER;
 
 -- DROP FRANK
 
@@ -150,7 +150,10 @@ CREATE TABLE Inspection_vehicule (
     vehicule_id CHAR(6)		NOT NULL,
 	employe_id INTEGER	NOT NULL,
     kilometrage_debut DECIMAL(8,2) NOT NULL,
-    kilometrage_fin DECIMAL(8,2) NOT NULL
+    kilometrage_fin DECIMAL(8,2) NOT NULL,
+	
+	CONSTRAINT contr_km_debut CHECK (kilometrage_debut >= 1 AND kilometrage_debut <= 500000),
+	CONSTRAINT contr_km_fin CHECK (kilometrage_fin >= 1 AND kilometrage_fin <= 500000)
 );
 
 -- Création de la table Inspection
@@ -159,7 +162,10 @@ CREATE TABLE Inspection (
     date_debut TIMESTAMP NOT NULL,
     date_fin TIMESTAMP NOT NULL,
     chemin_fichier_donnees VARCHAR(512) NOT NULL,
-    nom_fichier_donnees VARCHAR(18) NOT NULL
+    nom_fichier_donnees CHAR(18) NOT NULL,
+	
+	CONSTRAINT contr_nom_fichier CHECK (nom_fichier_donnees ~ '^PZW_[A-Z]{3}\d{3}-\d{2}\.xdat$')
+	-- ~ signale que le string suivant est du regex; ^ et $ debut et fin
 );
 
 -- Création de la table liste_inspection_info_vehicule
