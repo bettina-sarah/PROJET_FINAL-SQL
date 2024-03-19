@@ -73,15 +73,16 @@ CREATE TABLE Profileur_laser(
 
 CREATE TABLE Inspection_laser(
     id                      SERIAL      PRIMARY KEY,
+    inspection_id           INTEGER      NOT NULL,
     employe_id              INTEGER      NOT NULL,
     profileur_laser_id      CHAR(16)    NOT NULL      
 );
 
-CREATE TABLE liste_inspection_laser(
-    id                      SERIAL      PRIMARY KEY,
-    inspection_id           INTEGER      NOT NULL,
-    inpsection_laser_id     INTEGER      NOT NULL      
-);
+-- CREATE TABLE liste_inspection_laser(
+--     id                      SERIAL      PRIMARY KEY,
+    
+--     inpsection_laser_id     INTEGER      NOT NULL      
+-- );
 
 CREATE TABLE liste_inspection_troncon(
     id                      SERIAL      PRIMARY KEY,
@@ -147,6 +148,7 @@ CREATE TABLE Vehicule (
 -- Création de la table Inspection_vehicule
 CREATE TABLE Inspection_vehicule (
     id SERIAL PRIMARY KEY,
+    inspection_id           INTEGER      NOT NULL,
     vehicule_id CHAR(6)		NOT NULL,
 	employe_id INTEGER	NOT NULL,
     kilometrage_debut DECIMAL(8,2) NOT NULL,
@@ -169,11 +171,11 @@ CREATE TABLE Inspection (
 );
 
 -- Création de la table liste_inspection_info_vehicule
-CREATE TABLE liste_inspection_info_vehicule (
-    id SERIAL PRIMARY KEY,
-    inspection_id INTEGER	NOT NULL,
-    inspection_vehicule_id INTEGER		NOT NULL
-);
+-- CREATE TABLE liste_inspection_info_vehicule (
+--     id SERIAL PRIMARY KEY,
+--     inspection_id INTEGER	NOT NULL,
+--     inspection_vehicule_id INTEGER		NOT NULL
+-- );
 
 
 
@@ -192,18 +194,16 @@ ALTER TABLE liste_reseau_troncon_intersection ADD CONSTRAINT fk_intersection_id_
 
 ALTER TABLE IF EXISTS liste_inspection_troncon DROP CONSTRAINT IF EXISTS fk_inspection_id__inspection;
 ALTER TABLE IF EXISTS liste_inspection_troncon DROP CONSTRAINT IF EXISTS fk_troncon_id__troncon;
-ALTER TABLE IF EXISTS liste_inspection_laser DROP CONSTRAINT IF EXISTS fk_inspection_id__inspection;
-ALTER TABLE IF EXISTS liste_inspection_laser DROP CONSTRAINT IF EXISTS fk_inpsection_laser_id__Inspection_laser;
+ALTER TABLE IF EXISTS Inspection_laser DROP CONSTRAINT IF EXISTS fk_inspection_id__inspection;
+-- ALTER TABLE IF EXISTS liste_inspection_laser DROP CONSTRAINT IF EXISTS fk_inpsection_laser_id__Inspection_laser;
 ALTER TABLE IF EXISTS Inspection_laser DROP CONSTRAINT IF EXISTS fk_employe_id__employe;
 ALTER TABLE IF EXISTS Inspection_laser DROP CONSTRAINT IF EXISTS fk_profileur_laser_id__Inspection_laser;
 
 ALTER TABLE Inspection_laser
+    ADD CONSTRAINT fk_inspection_id__inspection FOREIGN KEY (inspection_id) REFERENCES Inspection(id),
 	ADD CONSTRAINT fk_employe_id__employe FOREIGN KEY (employe_id) REFERENCES employe(id),
 	ADD CONSTRAINT fk_profileur_laser_id__Profileur_laser FOREIGN KEY (profileur_laser_id) REFERENCES Profileur_laser(num_serie);
 
-ALTER TABLE liste_inspection_laser
-	ADD CONSTRAINT fk_inspection_id__inspection FOREIGN KEY (inspection_id) REFERENCES Inspection(id),
-	ADD CONSTRAINT fk_inpsection_laser_id__Inspection_laser FOREIGN KEY (inpsection_laser_id) REFERENCES Inspection_laser(id);
 
 ALTER TABLE liste_inspection_troncon
 	ADD CONSTRAINT fk_inspection_id__inspection FOREIGN KEY (inspection_id) REFERENCES Inspection(id),
@@ -212,12 +212,9 @@ ALTER TABLE liste_inspection_troncon
 
 -- FK "BARIS"
 
-ALTER TABLE liste_inspection_info_vehicule
-	ADD CONSTRAINT fk_inspection_vehicule_id__inspection_vehicule FOREIGN KEY (inspection_vehicule_id) REFERENCES inspection_vehicule(id),
-	ADD CONSTRAINT fk_inspection__id__inspection FOREIGN KEY (inspection_id) REFERENCES inspection(id);
-
 
 ALTER TABLE inspection_vehicule
+ADD CONSTRAINT fk_inspection_id__inspection FOREIGN KEY (inspection_id) REFERENCES Inspection(id),
 ADD CONSTRAINT fk_vehicule_id__vehicule FOREIGN KEY (vehicule_id) REFERENCES vehicule(immatriculation),
 ADD CONSTRAINT fk_employe_id__employe FOREIGN KEY (employe_id) REFERENCES employe(id);
 
