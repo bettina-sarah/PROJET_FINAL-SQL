@@ -35,6 +35,28 @@ INSERT INTO Inspection_laser(employe_id, profileur_laser_id)
             ((SELECT id FROM employe WHERE nom = 'Banane'), '200002-lrtrto');
 
 INSERT INTO liste_inspection_laser (inspection_id, inpsection_laser_id)
-    VALUES((SELECT id FROM Inspection WHERE nom_fichier_donnees = 'PZW_POP123-66.xdat'), (SELECT id FROM Inspection_laser WHERE profileur_laser_id = '200002-lrtrto'));
+    VALUES  ((SELECT id FROM Inspection WHERE nom_fichier_donnees = 'PZW_POP123-66.xdat'), (SELECT id FROM Inspection_laser WHERE profileur_laser_id = '200002-lrtrto')),
+            ((SELECT id FROM Inspection WHERE nom_fichier_donnees = 'PZW_POP123-87.xdat'), 2),
+            ((SELECT id FROM Inspection WHERE nom_fichier_donnees = 'PZW_POP123-88.xdat'), 3),
+            (4, 3),
+            (5, 3),
+            (6, 4),
+            (7, 4),
+            (8, 5),
+
+-- probleme serial et id
+INSERT INTO Inspection_vehicule (vehicule_id, employe_id, kilometrage_debut, kilometrage_fin)
+    VALUES  ('657KAN',1,34560,35070),
+            ('657KAN',1,35900,36700),
+            ('5WI89N',1,37100,37900),
+            ('607G1N',2,38500,39202),
+            ('657KAN',2,40001, 40999), ('657KAN',2,39300, 39700), ('657KAN',2,39730, 40012),
+            ('YY7KAN',1,1600,1800),
+            ('YY7KAN',1,1850,2500),
+            ('YY7KAN',2,2550, 2900);
+
+-- probleme serial et id
+INSERT INTO liste_inspection_info_vehicule(inspection_id, inspection_vehicule_id)
+    VALUES (1,61),(2,62),(3,63),(4,64),(5,65),(5,66),(5,67),(6,68),(7,69),(8,70);
 
     
