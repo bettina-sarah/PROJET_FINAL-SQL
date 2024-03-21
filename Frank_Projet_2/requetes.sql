@@ -20,6 +20,17 @@ tr.longueur AS "Longueur"
 		ON tr.id = lit.troncon_id
 			WHERE inspection_id = 1
 
+SELECT 
+lit.troncon_id AS "Troncon",
+lit.voie AS "Voie",
+tr.longueur AS "Longueur",
+SUM(tr.longueur*lit.voie) AS "Total"
+	FROM liste_inspection_troncon AS "lit"
+	INNER JOIN troncon AS "tr" 
+		ON tr.id = lit.troncon_id
+			WHERE inspection_id = 1
+				GROUP BY lit.troncon_id, lit.voie, tr.longueur
+
 -- =======================================================
 
 

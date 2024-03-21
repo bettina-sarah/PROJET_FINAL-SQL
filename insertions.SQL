@@ -151,14 +151,14 @@ INSERT INTO Inspection_vehicule (inspection_id, vehicule_id, employe_id, kilomet
             (8,'YY7KAN',2,2550, 2900);
 
 INSERT INTO liste_inspection_troncon(inspection_id, troncon_id, voie)
-    VALUES  (1,1,1),(1,2,1),(1,3,1),(1,3,2),(1,2,2),(1,1,2),
-            (2,2,2),(2,3,2),(2,3,1),(2,2,1),
-            (3,1,1),(3,1,2),
-            (4,3,1),(4,3,2),
-            (5,2,1),(5,1,1),
+    VALUES  (1,1,2),(1,2,2),(1,3,2),
+            (2,2,2),(2,3,2),
+            (3,2,2),(3,1,2),
+            (4,3,2),(4,2,2),
+            (5,2,2),(5,1,2),
             (6,3,2),
-            (7,2,1),
-            (8,3,1);
+            (7,2,2),
+            (8,3,2);
 
 
     
