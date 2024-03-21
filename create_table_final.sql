@@ -111,7 +111,7 @@ CREATE TABLE Departement (
 -- tableau de reference
 CREATE TABLE Poste (
 	poste_id		SERIAL			PRIMARY KEY,
-	post_nom		VARCHAR(64)		NOT NULL
+	poste_nom		VARCHAR(64)		NOT NULL
 );
 
 
