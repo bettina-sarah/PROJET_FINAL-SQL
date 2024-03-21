@@ -32,6 +32,19 @@ DROP TABLE IF EXISTS Profileur_laser CASCADE;
 
 -- CREATE TABLE AND TYPE Emeric
 DROP SEQUENCE IF EXISTS intersection_identifiant CASCADE;
+
+DROP SEQUENCE IF EXISTS departement_departement_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS employe_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS inspection_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS inspection_laser_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS inspection_vehicule_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS liste_inspection_troncon_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS liste_reseau_troncon_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS poste_poste_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS reseau_routier_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS troncon_id_seq CASCADE;
+
+
 CREATE TYPE pavage_enum AS ENUM('asphalte','ciment', 'pavé brique', 'pavé pierre');
 
 -- Sequence pour intersection
