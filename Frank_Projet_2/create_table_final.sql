@@ -31,7 +31,16 @@ DROP TABLE IF EXISTS Profileur_laser CASCADE;
 
 
 -- CREATE TABLE AND TYPE Emeric
+DROP SEQUENCE IF EXISTS intersection_identifiant CASCADE;
 CREATE TYPE pavage_enum AS ENUM('asphalte','ciment', 'pavé brique', 'pavé pierre');
+
+-- Sequence pour intersection
+CREATE SEQUENCE intersection_identifiant
+    START WITH 10000
+    INCREMENT BY 1
+    MINVALUE 10000
+    MAXVALUE 99999
+    CYCLE;
 
 CREATE TABLE Troncon (
     id              SERIAL PRIMARY KEY,
@@ -43,7 +52,7 @@ CREATE TABLE Troncon (
 );
 
 CREATE TABLE Intersection (
-    id              INTEGER PRIMARY KEY CHECK(id BETWEEN 10000 AND 99999),
+    id              INTEGER DEFAULT nextval('intersection_identifiant') PRIMARY KEY,
     latitude        DECIMAL(8,6) NOT NULL,
     longitude       DECIMAL(8,6) NOT NULL,
     type_pavage     pavage_enum
@@ -58,7 +67,8 @@ CREATE TABLE liste_reseau_troncon_intersection(
     id              SERIAL PRIMARY KEY,
     reseau_id       INTEGER NOT NULL,
     troncon_id      INTEGER NOT NULL,
-    intersection_id INTEGER NOT NULL
+        intersection_debut_id INTEGER NOT NULL,
+    intersection_fin_id INTEGER NOT NULL
 );
 
 
@@ -187,8 +197,8 @@ CREATE TABLE Inspection (
 -- Foreign Keys Emeric
 ALTER TABLE liste_reseau_troncon_intersection ADD CONSTRAINT fk_reseau_id_Reseau_routier FOREIGN KEY (reseau_id) REFERENCES Reseau_routier (id);
 ALTER TABLE liste_reseau_troncon_intersection ADD CONSTRAINT fk_troncon_id_Reseau_routier FOREIGN KEY (troncon_id) REFERENCES Troncon (id);
-ALTER TABLE liste_reseau_troncon_intersection ADD CONSTRAINT fk_intersection_id_Reseau_routier FOREIGN KEY (intersection_id) REFERENCES Intersection (id);
-
+ALTER TABLE liste_reseau_troncon_intersection ADD CONSTRAINT fk_intersection_debut_id_Reseau_routier FOREIGN KEY (intersection_debut_id) REFERENCES Intersection (id);
+ALTER TABLE liste_reseau_troncon_intersection ADD CONSTRAINT fk_intersection_fin_id_Reseau_routier FOREIGN KEY (intersection_fin_id) REFERENCES Intersection (id);
 
 -- FK FRANK 
 

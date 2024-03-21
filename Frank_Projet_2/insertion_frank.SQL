@@ -49,6 +49,16 @@ INSERT INTO Inspection_vehicule (inspection_id, vehicule_id, employe_id, kilomet
             (7,'YY7KAN',1,1850,2500),
             (8,'YY7KAN',2,2550, 2900);
 
+INSERT INTO liste_inspection_troncon(inspection_id, troncon_id, voie)
+    VALUES  (1,1,1),
+            (2,1,2),
+            (3,2,1),
+            (4,3,1),
+            (5,3,1),
+            (6,3,2),
+            (7,2,1),
+            (8,3,1);
+
 
 
     
