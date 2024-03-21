@@ -6,30 +6,23 @@
 -- Réalisé par : Francois Bouchard
 -- ...
 -- =======================================================
-SELECT inspection_id AS "Inspection", SUM(kilometrage_fin - kilometrage_debut) AS "Total KM"
-FROM Inspection_vehicule
-WHERE inspection_id = 1
-GROUP BY inspection_id
-
+DROP VIEW IF EXISTS vue_longueur_inspection_par_troncon CASCADE;
+CREATE VIEW vue_longueur_inspection_par_troncon AS
 SELECT 
-lit.troncon_id AS "Troncon",
-lit.voie AS "Voie",
-tr.longueur AS "Longueur"
+lit.inspection_id AS Inspection,
+lit.troncon_id AS Troncon,
+lit.voie AS Voie,
+tr.longueur AS Longueur,
+SUM(tr.longueur*lit.voie) AS Total
 	FROM liste_inspection_troncon AS "lit"
 	INNER JOIN troncon AS "tr" 
 		ON tr.id = lit.troncon_id
-			WHERE inspection_id = 1
-
-SELECT 
-lit.troncon_id AS "Troncon",
-lit.voie AS "Voie",
-tr.longueur AS "Longueur",
-SUM(tr.longueur*lit.voie) AS "Total"
-	FROM liste_inspection_troncon AS "lit"
-	INNER JOIN troncon AS "tr" 
-		ON tr.id = lit.troncon_id
-			WHERE inspection_id = 1
-				GROUP BY lit.troncon_id, lit.voie, tr.longueur
+				GROUP BY  lit.troncon_id, lit.voie, tr.longueur, lit.inspection_id
+				ORDER BY lit.inspection_id;
+				
+SELECT Inspection, SUM(Total)|| ' Km' AS "Distance totale de l''inspection"  FROM vue_longueur_inspection_par_troncon
+WHERE inspection = 1
+GROUP BY Inspection;
 
 -- =======================================================
 
@@ -44,6 +37,21 @@ SUM(tr.longueur*lit.voie) AS "Total"
 -- Réalisé par : Francois Bouchard
 -- ...
 -- =======================================================
+-- $/km
+SELECT 
+Inspection, 
+SUM(Total) AS distance,
+SUM(Total*1.55) AS cout_D
+FROM vue_longueur_inspection_par_troncon
+GROUP BY Inspection;
+-- temps/inspection
+SELECT 
+id AS Inspection,
+SUM(date_fin- date_debut) AS temps
+FROM Inspection
+GROUP BY id
+ORDER BY id
+-- inner join avec la vue à bettina
 
 -- =======================================================
 
