@@ -139,7 +139,7 @@ INSERT INTO Inspection_laser(inspection_id, employe_id, profileur_laser_id)
 
 
 
---probleme serial et id
+
 INSERT INTO Inspection_vehicule (inspection_id, vehicule_id, employe_id, kilometrage_debut, kilometrage_fin)
     VALUES  (1,'657KAN',1,34560,35070),
             (2,'657KAN',1,35900,36700),

@@ -9,8 +9,8 @@
 DROP VIEW IF EXISTS vue_longueur_inspection_par_troncon CASCADE;
 CREATE VIEW vue_longueur_inspection_par_troncon AS
 SELECT 
-lit.inspection_id AS Inspection,
-lit.troncon_id AS Troncon,
+lit.inspection_id AS Inspection_id,
+lit.troncon_id AS Troncon_id,
 lit.voie AS Voie,
 tr.longueur AS Longueur,
 SUM(tr.longueur*lit.voie) AS Total
@@ -20,9 +20,9 @@ SUM(tr.longueur*lit.voie) AS Total
 				GROUP BY  lit.troncon_id, lit.voie, tr.longueur, lit.inspection_id
 				ORDER BY lit.inspection_id;
 				
-SELECT Inspection, SUM(Total)|| ' Km' AS "Distance totale de l''inspection"  FROM vue_longueur_inspection_par_troncon
-WHERE inspection = 1
-GROUP BY Inspection;
+SELECT Inspection_id, SUM(Total)|| ' Km' AS "Distance totale de l''inspection"  FROM vue_longueur_inspection_par_troncon
+WHERE inspection_id = 1
+GROUP BY Inspection_id;
 
 -- =======================================================
 
@@ -37,21 +37,35 @@ GROUP BY Inspection;
 -- Réalisé par : Francois Bouchard
 -- ...
 -- =======================================================
--- $/km
+
+DROP VIEW IF EXISTS vue_inspection_stats CASCADE;
+CREATE VIEW vue_inspection_stats AS
+	
 SELECT 
-Inspection, 
-SUM(Total) AS distance,
-SUM(Total*1.55) AS cout_D
-FROM vue_longueur_inspection_par_troncon
-GROUP BY Inspection;
--- temps/inspection
+vlit.inspection_id AS inspection_id, 
+SUM(Total) AS Distance_totale,
+SUM(date_fin- date_debut) AS Duree_totale,
+SUM(Total*1.55) AS cout_total
+FROM vue_longueur_inspection_par_troncon AS vlit
+INNER JOIN Inspection AS ins
+ON ins.id = vlit.inspection_id
+GROUP BY inspection_id
+ORDER BY inspection_id
+
+
 SELECT 
-id AS Inspection,
-SUM(date_fin- date_debut) AS temps
-FROM Inspection
-GROUP BY id
-ORDER BY id
--- inner join avec la vue à bettina
+vis.inspection_id AS id,
+ROUND(vis.cout_total,2) ||'$' AS cout_exploitation,
+(empv.salaire_horaire * EXTRACT(HOUR FROM vis.duree_totale))||'$' AS "cout_conducteur",
+(empl.salaire_horaire * EXTRACT(HOUR FROM vis.duree_totale))||'$' AS "cout_laser"
+FROM vue_inspection_stats AS vis
+INNER JOIN vue_inspection_vehicule_laser_employe AS vivle
+ON vis.inspection_id = vivle.inspection_id
+INNER JOIN employe AS empv
+ON empv.id = vivle.employe_id_vehicule
+INNER JOIN employe AS empl
+ON empl.id = vivle.employe_id_laser;
+
 
 -- =======================================================
 
