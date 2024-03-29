@@ -114,7 +114,7 @@ INSERT INTO Profileur_laser (num_serie, marque, modele)
 
 INSERT INTO Vehicule (immatriculation, marque, modele)
     VALUES  ('657KAN','Honda','Civic'),
-            ('5WI89N','Honda','Cicic'),
+            ('5WI89N','Honda','Civic'),
             ('607G1N','Nissan','Cube'),
             ('YY7KAN','Ferrari','348');
 
@@ -218,7 +218,46 @@ JOIN
 JOIN employe AS emp_laser ON inspection_laser.employe_id = emp_laser.id;
 
 
-    
+-- *********************************** FONCTION FRANK *****************************************
+
+CREATE OR REPLACE PROCEDURE nouvelle_inspection(
+	nom_conducteur VARCHAR(32),
+	nom_op_laser VARCHAR(32),
+	num_serie_laser CHAR(16),
+	immatriculation CHAR(16),
+	date_d TIMESTAMP,
+	date_f TIMESTAMP,
+	km_d DECIMAL(8,2),
+	km_f DECIMAL(8,2),
+	chemin_fichier VARCHAR(512),
+	nom_fichier CHAR(18)
+	)
+LANGUAGE PLPGSQL
+AS $$
+    DECLARE
+        id_conduc INTEGER;
+        id_op_las INTEGER;
+        id_insp INTEGER;
+    BEGIN
+        SELECT id from employe WHERE nom = nom_conducteur INTO id_conduc;
+        SELECT id from employe WHERE nom = nom_op_laser INTO id_op_las;
+        
+        -- Nouvelle inspection
+        INSERT INTO Inspection (date_debut, date_fin, chemin_fichier_donnees, nom_fichier_donnees)
+        VALUES (date_d, date_f, chemin_fichier, nom_fichieR);
+
+        SELECT id FROM inspection ORDER BY id DESC LIMIT 1 INTO id_insp;
+        
+        -- Nouvelle inspection vehicule
+        INSERT INTO Inspection_vehicule (inspection_id, vehicule_id, employe_id, kilometrage_debut, kilometrage_fin)
+        VALUES(id_insp, immatriculation, id_conduc, km_d, km_f);
+
+        -- Nouvelle inspection laser
+        INSERT INTO Inspection_laser(inspection_id, employe_id, profileur_laser_id)
+        VALUES (id_insp, id_op_las, num_serie_laser);
+    COMMIT;
+END;
+$$;    
 
 
 

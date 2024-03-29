@@ -186,8 +186,8 @@ CREATE TABLE Inspection (
     id SERIAL PRIMARY KEY,
     date_debut TIMESTAMP NOT NULL,
     date_fin TIMESTAMP NOT NULL,
-    chemin_fichier_donnees VARCHAR(512) NOT NULL,
-    nom_fichier_donnees CHAR(18) NOT NULL,
+    chemin_fichier_donnees VARCHAR(512) NOT NULL UNIQUE,
+    nom_fichier_donnees CHAR(18) NOT NULL UNIQUE,
 	
 	CONSTRAINT contr_nom_fichier CHECK (nom_fichier_donnees ~ '^PZW_[A-Z]{3}\d{3}-\d{2}\.xdat$')
 	-- ~ signale que le string suivant est du regex; ^ et $ debut et fin

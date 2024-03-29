@@ -2,7 +2,7 @@
 -- =======================================================
 -- Requête #5
 -- Objectif : Pour une inspection donnée, combien de kilomètres ont été parcourus.
--- Évaluation : ...
+-- Évaluation : Termnié
 -- Réalisé par : Francois Bouchard
 -- ...
 -- =======================================================
@@ -20,7 +20,7 @@ SUM(tr.longueur*lit.voie) AS Total
 				GROUP BY  lit.troncon_id, lit.voie, tr.longueur, lit.inspection_id
 				ORDER BY lit.inspection_id;
 				
-SELECT Inspection_id, SUM(Total)|| ' Km' AS "Distance totale de l''inspection"  FROM vue_longueur_inspection_par_troncon
+SELECT Inspection_id, ROUND(SUM(Total/1000),2)|| ' Km' AS "Distance totale de l''inspection"  FROM vue_longueur_inspection_par_troncon
 WHERE inspection_id = 1
 GROUP BY Inspection_id;
 
@@ -33,7 +33,7 @@ GROUP BY Inspection_id;
 -- Objectif : Pour chacune des inspections, on désire savoir quels ont été les frais associés (vous devez tenir
 -- compte du temps passé pour les deux employés lors de l’inspection, des coûts d’exploitation du
 -- véhicule à 1.55$ par kilomètre). 
--- Évaluation : ...
+-- Évaluation : Terminé, fait à l'aide de la 'vue_inspection_vehicule_laser_employe' de bettina 
 -- Réalisé par : Francois Bouchard
 -- ...
 -- =======================================================
@@ -42,9 +42,9 @@ DROP VIEW IF EXISTS vue_inspection_stats CASCADE;
 CREATE VIEW vue_inspection_stats AS
 SELECT 
 vlit.inspection_id AS inspection_id, 
-ROUND(SUM(Total/1000),2) AS Distance_totale_KM,
-SUM(date_fin - date_debut) AS Duree_totale,
-ROUND(SUM(Total/1000)*1.55,2) AS Cout_total
+ROUND(SUM(vlit.Total/1000),2) AS Distance_totale_KM,
+SUM(ins.date_fin - ins.date_debut) AS Duree_totale,
+ROUND(SUM(vlit.Total/1000)*1.55,2) AS Cout_total
 FROM vue_longueur_inspection_par_troncon AS vlit
 INNER JOIN Inspection AS ins
 ON ins.id = vlit.inspection_id
@@ -73,37 +73,24 @@ ON empl.id = vivle.employe_id_laser;
 -- =======================================================
 -- Requête #7
 -- Objectif : 
--- Évaluation : ...
+-- Évaluation : Termniné
 -- Réalisé par : Francois Bouchard
--- ...
+-- Afficher la distance parcourue, le nombre d'heure d'utilisation et le ratio km/h que possède globalement nos vehicule de marque/modele 'Honda Civic', possède une requête corrélé et une vue
+-- 3 tables dans la requete + 2 tables dans la vue (qui elle-même utilise une autre vue qui à 2 tables)
 -- =======================================================
+
 
 SELECT
-DISTINCT vehicule_id AS Vech
-FROM vehicule AS veh
-INNER JOIN inspection_vehicule AS insv
-ON veh.immatriculation = insv.vehicule_id
-INNER JOIN liste_inspection_troncon AS inst
-ON inst.inspection_id = insv.inspection_id
-INNER JOIN troncon AS tronc
-ON tronc.id = inst.troncon_id
-GROUP BY vehicule_id
+SUM(vis.distance_totale_km)|| ' km' AS "Distance parcourue",
+EXTRACT(HOUR FROM SUM(vis.duree_totale))|| 'h' AS "Heures d'utilisation totales",
+ROUND((SUM(vis.distance_totale_km)/ EXTRACT(HOUR FROM SUM(vis.duree_totale))), 2) || ' km/h' AS "kilomètre par heure"
+FROM vue_inspection_stats AS vis 
+INNER JOIN inspection_vehicule AS inspv
+ON vis.inspection_id = inspv.inspection_id
+	WHERE inspv.vehicule_id = (SELECT 
+				veh.immatriculation FROM vehicule AS veh
+					WHERE veh.immatriculation = inspv.vehicule_id 
+						AND veh.marque = 'Honda' AND veh.modele = 'Civic')
+
 
 -- =======================================================
-
-
-SELECT 
-    veh.immatriculation AS Vehicule,
-    (
-        SELECT lrti.intersection_debut_id
-        FROM inspection_vehicule AS insv
-        INNER JOIN liste_inspection_troncon AS inst ON inst.inspection_id = insv.inspection_id
-        INNER JOIN troncon AS tronc ON tronc.id = inst.troncon_id
-        INNER JOIN liste_reseau_troncon_intersection AS lrti ON tronc.id = lrti.troncon_id
-        WHERE insv.vehicule_id = veh.immatriculation
-        ORDER BY lrti.intersection_debut_id
-    ) AS debut_fin
-FROM 
-    vehicule AS veh
-ORDER BY 
-    veh.immatriculation;
