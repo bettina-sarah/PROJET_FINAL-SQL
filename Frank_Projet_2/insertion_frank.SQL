@@ -61,4 +61,7 @@ INSERT INTO liste_inspection_troncon(inspection_id, troncon_id, voie)
 
 
 
+
+
+
     

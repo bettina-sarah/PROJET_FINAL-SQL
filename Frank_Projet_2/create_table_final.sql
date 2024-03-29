@@ -188,10 +188,6 @@ CREATE TABLE Inspection (
 -- );
 
 
-
-
-
-
 -- *************** FOREIGN KEYS ***************************
 
 -- Foreign Keys Emeric
