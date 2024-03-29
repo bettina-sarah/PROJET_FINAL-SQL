@@ -21,9 +21,9 @@ INSERT INTO departement (departement_nom)
 			('informatique'),
 			('recherche');
 
---------- ******************* Création TRIGGERS & FONCTIONS pour les inserts employé
+--------- ******************* BETTINA: Création TRIGGERS & FONCTIONS pour les inserts employé
 
---Créer fonction pour le trigger du poste:
+--Fonction pour le trigger du poste:
 CREATE OR REPLACE FUNCTION fonction_poste() RETURNS TRIGGER
 LANGUAGE PLPGSQL AS $$
 BEGIN
@@ -34,7 +34,7 @@ IF NEW.poste NOT IN (SELECT poste_nom FROM poste) THEN
 END;
 $$;
 
--- Créer TRIGGER pour AVANT l'insertion du poste dans employe
+-- TRIGGER pour AVANT l'insertion du poste dans employe
 CREATE TRIGGER trigger_poste
 	BEFORE INSERT
 	ON employe
@@ -42,7 +42,7 @@ CREATE TRIGGER trigger_poste
 	EXECUTE FUNCTION fonction_poste();
 	
 
---Créer fonction pour le trigger du departement:
+--Fonction pour le trigger du departement:
 CREATE OR REPLACE FUNCTION fonction_departement() RETURNS TRIGGER
 LANGUAGE PLPGSQL AS $$
 BEGIN
@@ -53,7 +53,7 @@ IF NEW.departement NOT IN (SELECT departement_nom FROM departement) THEN
 END;
 $$;
 
--- Créer TRIGGER pour AVANT l'insertion du departement dans employe
+-- TRIGGER pour AVANT l'insertion du departement dans employe
 CREATE TRIGGER trigger_departement
 	BEFORE INSERT
 	ON employe
@@ -64,7 +64,7 @@ CREATE TRIGGER trigger_departement
 
 -- ************************trigger FRANK pour création insert_liste_troncon_inspection
 
-CREATE OR REPLACE FUNCTION ajouter_liste_troncon_inspection()
+	CREATE OR REPLACE FUNCTION ajouter_liste_troncon_inspection()
 		RETURNS TRIGGER
 	LANGUAGE PLPGSQL AS $$
 	BEGIN
@@ -77,7 +77,7 @@ $$;
 CREATE OR REPLACE TRIGGER ajouter_liste_troncon_inspection_trig
 	BEFORE INSERT ON liste_inspection_troncon
 	FOR EACH ROW
-	EXECUTE PROCEDURE ajouter_troncon_inspection();
+	EXECUTE PROCEDURE ajouter_liste_troncon_inspection();
 
 
 -- ********************************** Procedure FRANK
@@ -108,7 +108,7 @@ AS $$
         
         -- Nouvelle inspection
         INSERT INTO Inspection (date_debut, date_fin, chemin_fichier_donnees, nom_fichier_donnees)
-        VALUES (date_d, date_f, chemin_fichier, nom_fichieR);
+        VALUES (date_d, date_f, chemin_fichier, nom_fichier);
 
         SELECT id FROM inspection ORDER BY id DESC LIMIT 1 INTO id_insp;
         
@@ -212,6 +212,9 @@ CALL nouvelle_inspection('Banane', 'Couronne', '200002-lrtrto', '5WI89N', '2023-
 
 CALL nouvelle_inspection('Couronne', 'LeGrand', '222233-lrtrto', '607G1N', '2023-04-25 09:00:00', '2023-04-25 17:00:00', 37100,37900,
 	'C:\FichierSecret\Inspections\PZW_POP123-11.xdat','PZW_POP123-11.xdat');
+	
+CALL nouvelle_inspection('Couronne', 'Lebel', 'POW-PEW-13212', '5WI89N', '2023-05-23 09:00:00', '2023-05-23 13:00:00', 5000,5200,
+	'C:\FichierSecret\Inspections\PZW_POP123-12.xdat','PZW_POP123-12.xdat');
 
 
 INSERT INTO liste_inspection_troncon(inspection_id, troncon_id)
