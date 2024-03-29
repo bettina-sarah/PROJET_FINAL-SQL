@@ -49,7 +49,7 @@ FROM vue_longueur_inspection_par_troncon AS vlit
 INNER JOIN Inspection AS ins
 ON ins.id = vlit.inspection_id
 GROUP BY inspection_id
-ORDER BY inspection_id
+ORDER BY inspection_id;
 
 
 SELECT 
@@ -90,7 +90,7 @@ ON vis.inspection_id = inspv.inspection_id
 	WHERE inspv.vehicule_id = (SELECT 
 				veh.immatriculation FROM vehicule AS veh
 					WHERE veh.immatriculation = inspv.vehicule_id 
-						AND veh.marque = 'Honda' AND veh.modele = 'Civic')
+						AND veh.marque = 'Honda' AND veh.modele = 'Civic');
 
 
 -- =======================================================

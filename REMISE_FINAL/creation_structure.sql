@@ -96,7 +96,7 @@ CREATE TABLE Profileur_laser(
 
 CREATE TABLE Inspection_laser(
     id                      SERIAL      PRIMARY KEY,
-    inspection_id           INTEGER      NOT NULL,
+    inspection_id           INTEGER      NOT NULL UNIQUE,
     employe_id              INTEGER      NOT NULL,
     profileur_laser_id      CHAR(16)    NOT NULL      
 );
@@ -171,7 +171,7 @@ CREATE TABLE Vehicule (
 -- Création de la table Inspection_vehicule
 CREATE TABLE Inspection_vehicule (
     id SERIAL PRIMARY KEY,
-    inspection_id           INTEGER      NOT NULL,
+    inspection_id           INTEGER  NOT NULL UNIQUE,
     vehicule_id CHAR(6)		NOT NULL,
 	employe_id INTEGER	NOT NULL,
     kilometrage_debut DECIMAL(8,2) NOT NULL,

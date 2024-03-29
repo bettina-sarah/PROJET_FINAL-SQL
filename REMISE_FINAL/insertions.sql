@@ -35,7 +35,7 @@ END;
 $$;
 
 -- TRIGGER pour AVANT l'insertion du poste dans employe
-CREATE TRIGGER trigger_poste
+CREATE OR REPLACE TRIGGER trigger_poste
 	BEFORE INSERT
 	ON employe
 	FOR EACH ROW
@@ -54,7 +54,7 @@ END;
 $$;
 
 -- TRIGGER pour AVANT l'insertion du departement dans employe
-CREATE TRIGGER trigger_departement
+CREATE OR REPLACE TRIGGER trigger_departement
 	BEFORE INSERT
 	ON employe
 	FOR EACH ROW
