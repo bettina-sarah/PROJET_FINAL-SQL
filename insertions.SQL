@@ -62,7 +62,22 @@ CREATE TRIGGER trigger_departement
 
 
 
+-- ************************trigger FRANK pour création insert_liste_troncon_inspection
 
+CREATE OR REPLACE FUNCTION ajouter_liste_troncon_inspection()
+		RETURNS TRIGGER
+	LANGUAGE PLPGSQL AS $$
+	BEGIN
+    -- force le nombre de voie inspecter à être le nombre de voie du troncon
+		SELECT nb_voies FROM troncon WHERE troncon.id = New.troncon_id INTO New.voie;
+		RETURN NEW;
+	END;
+$$;
+
+CREATE OR REPLACE TRIGGER ajouter_liste_troncon_inspection_trig
+	BEFORE INSERT ON liste_inspection_troncon
+	FOR EACH ROW
+	EXECUTE PROCEDURE ajouter_troncon_inspection();
 
 -- *** INSERTS EMPLOYE:
 
