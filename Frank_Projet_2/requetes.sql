@@ -2,7 +2,7 @@
 -- =======================================================
 -- Requête #5
 -- Objectif : Pour une inspection donnée, combien de kilomètres ont été parcourus.
--- Évaluation : Termnié
+-- Évaluation : Termnié, fait avec ma vue_longueur_inspection_par_troncon
 -- Réalisé par : Francois Bouchard
 -- ...
 -- =======================================================
@@ -33,7 +33,7 @@ GROUP BY Inspection_id;
 -- Objectif : Pour chacune des inspections, on désire savoir quels ont été les frais associés (vous devez tenir
 -- compte du temps passé pour les deux employés lors de l’inspection, des coûts d’exploitation du
 -- véhicule à 1.55$ par kilomètre). 
--- Évaluation : Terminé, fait à l'aide de la 'vue_inspection_vehicule_laser_employe' de bettina 
+-- Évaluation : Terminé, fait à l'aide de ma vue 'vue_inspection_stats'   'vue_inspection_vehicule_laser_employe' de bettina 
 -- Réalisé par : Francois Bouchard
 -- ...
 -- =======================================================
