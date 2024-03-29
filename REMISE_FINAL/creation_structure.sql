@@ -143,7 +143,7 @@ CREATE TABLE Employe (
 	nom					VARCHAR(32)				NOT NULL,
 	prenom				VARCHAR(32)				NOT NULL,
 	genre				GENDER					NOT NULL,
-	nas					CHAR(9)					NOT NULL,
+	nas					CHAR(9)					NOT NULL UNIQUE,
 	date_embauche		DATE					DEFAULT CURRENT_DATE,
 	salaire_horaire		NUMERIC(5,2)			DEFAULT 27.50,
 	poste				VARCHAR(64)				NOT NULL,
