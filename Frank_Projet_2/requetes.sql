@@ -90,3 +90,20 @@ ON tronc.id = inst.troncon_id
 GROUP BY vehicule_id
 
 -- =======================================================
+
+
+SELECT 
+    veh.immatriculation AS Vehicule,
+    (
+        SELECT lrti.intersection_debut_id
+        FROM inspection_vehicule AS insv
+        INNER JOIN liste_inspection_troncon AS inst ON inst.inspection_id = insv.inspection_id
+        INNER JOIN troncon AS tronc ON tronc.id = inst.troncon_id
+        INNER JOIN liste_reseau_troncon_intersection AS lrti ON tronc.id = lrti.troncon_id
+        WHERE insv.vehicule_id = veh.immatriculation
+        ORDER BY lrti.intersection_debut_id
+    ) AS debut_fin
+FROM 
+    vehicule AS veh
+ORDER BY 
+    veh.immatriculation;

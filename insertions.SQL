@@ -61,6 +61,9 @@ CREATE TRIGGER trigger_departement
 	EXECUTE FUNCTION fonction_departement();
 
 
+
+
+
 -- *** INSERTS EMPLOYE:
 
 INSERT INTO employe (nom, prenom, genre, nas, date_embauche, salaire_horaire, poste, departement)
@@ -125,7 +128,7 @@ INSERT INTO Inspection (date_debut, date_fin, chemin_fichier_donnees, nom_fichie
     ('2023-01-7 10:47:00','2023-01-7 19:34:00','C:\FichierSecret\Inspections\PZW_POP123-90.xdat', 'PZW_POP123-90.xdat'),
     ('2023-01-19 11:40:00','2023-01-19 16:26:00','C:\FichierSecret\Inspections\PZW_POP123-91.xdat', 'PZW_POP123-91.xdat'),
     ('2023-02-23 12:20:00','2023-02-23 18:13:00','C:\FichierSecret\Inspections\PZW_POP123-92.xdat', 'PZW_POP123-92.xdat'),
-    ('2023-04-14 03:00:00','2023-04-2 17:19:00','C:\FichierSecret\Inspections\PZW_POP123-93.xdat', 'PZW_POP123-93.xdat');
+    ('2023-04-14 03:00:00','2023-04-14 17:19:00','C:\FichierSecret\Inspections\PZW_POP123-93.xdat', 'PZW_POP123-93.xdat');
 
 INSERT INTO Inspection_laser(inspection_id, employe_id, profileur_laser_id)
     VALUES  (1,(SELECT id FROM employe WHERE nom = 'Banane'), 'POW-PEW-13212'),
@@ -159,6 +162,60 @@ INSERT INTO liste_inspection_troncon(inspection_id, troncon_id, voie)
             (6,3,2),
             (7,2,2),
             (8,3,2);
+
+
+-- **************************** VUE Frank****************************
+
+DROP VIEW IF EXISTS vue_longueur_inspection_par_troncon CASCADE;
+CREATE VIEW vue_longueur_inspection_par_troncon AS
+SELECT 
+lit.inspection_id AS Inspection_id,
+lit.troncon_id AS Troncon_id,
+lit.voie AS Voie,
+tr.longueur AS Longueur,
+SUM(tr.longueur*lit.voie) AS Total
+	FROM liste_inspection_troncon AS "lit"
+	INNER JOIN troncon AS "tr" 
+		ON tr.id = lit.troncon_id
+				GROUP BY  lit.troncon_id, lit.voie, tr.longueur, lit.inspection_id
+				ORDER BY lit.inspection_id;
+
+
+DROP VIEW IF EXISTS vue_inspection_stats CASCADE;
+CREATE VIEW vue_inspection_stats AS
+SELECT 
+vlit.inspection_id AS inspection_id, 
+ROUND(SUM(Total/1000),2) AS Distance_totale_KM,
+SUM(date_fin - date_debut) AS Duree_totale,
+ROUND(SUM(Total/1000)*1.55,2) AS Cout_total
+FROM vue_longueur_inspection_par_troncon AS vlit
+INNER JOIN Inspection AS ins
+ON ins.id = vlit.inspection_id
+GROUP BY inspection_id
+ORDER BY inspection_id;
+
+-- **************************** VUE Bettina ****************************
+
+DROP VIEW IF EXISTS vue_inspection_vehicule_laser_employe CASCADE;
+CREATE VIEW vue_inspection_vehicule_laser_employe AS
+	SELECT 
+    inspection.id AS inspection_id,
+    inspection_vehicule.id AS inspection_vehicule_id,
+    inspection_vehicule.employe_id AS employe_id_vehicule,
+	emp_vehicule.nom AS Nom_employe_vehicule,
+	emp_vehicule.prenom AS Prenom_employe_vehicule,
+	inspection_laser.employe_id AS employe_id_laser,
+	emp_laser.nom AS Nom_employe_laser,
+	emp_laser.prenom AS Prenom_employe_laser
+FROM 
+    inspection 
+JOIN 
+    inspection_vehicule ON inspection.id = inspection_vehicule.inspection_id
+JOIN
+	inspection_laser ON inspection.id = inspection_laser.inspection_id
+JOIN
+	employe AS emp_vehicule ON inspection_vehicule.employe_id = emp_vehicule.id
+JOIN employe AS emp_laser ON inspection_laser.employe_id = emp_laser.id;
 
 
     
