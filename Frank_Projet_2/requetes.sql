@@ -40,12 +40,11 @@ GROUP BY Inspection_id;
 
 DROP VIEW IF EXISTS vue_inspection_stats CASCADE;
 CREATE VIEW vue_inspection_stats AS
-	
 SELECT 
 vlit.inspection_id AS inspection_id, 
-SUM(Total) AS Distance_totale,
-SUM(date_fin- date_debut) AS Duree_totale,
-SUM(Total*1.55) AS cout_total
+ROUND(SUM(Total/1000),2) AS Distance_totale_KM,
+SUM(date_fin - date_debut) AS Duree_totale,
+ROUND(SUM(Total/1000)*1.55,2) AS Cout_total
 FROM vue_longueur_inspection_par_troncon AS vlit
 INNER JOIN Inspection AS ins
 ON ins.id = vlit.inspection_id
@@ -78,5 +77,16 @@ ON empl.id = vivle.employe_id_laser;
 -- Réalisé par : Francois Bouchard
 -- ...
 -- =======================================================
+
+SELECT
+DISTINCT vehicule_id AS Vech
+FROM vehicule AS veh
+INNER JOIN inspection_vehicule AS insv
+ON veh.immatriculation = insv.vehicule_id
+INNER JOIN liste_inspection_troncon AS inst
+ON inst.inspection_id = insv.inspection_id
+INNER JOIN troncon AS tronc
+ON tronc.id = inst.troncon_id
+GROUP BY vehicule_id
 
 -- =======================================================
