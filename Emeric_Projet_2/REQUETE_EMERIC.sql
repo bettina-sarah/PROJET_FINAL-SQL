@@ -58,14 +58,17 @@ ORDER BY
 -- Évaluation : 
 -- Réalisé par : Emeric
 -- =======================================================
-WITH Laser_Usage AS (
+WITH Outil_Usage AS (
     SELECT 
         Reseau_routier.nom AS nom_reseau,
         Profileur_laser.num_serie AS Laser_numero_serie,
         Profileur_laser.marque AS Laser_Marque,
         Profileur_laser.modele AS Laser_Modele,
         Inspection.id AS inspection_id,
-        EXTRACT(EPOCH FROM (MAX(Inspection.date_fin) - MIN(Inspection.date_debut))) AS total_usage_time
+		Vehicule.immatriculation AS Vehicule_Immatriculation,
+		Vehicule.marque AS Vehicule_Marque,
+		Vehicule.modele AS Vehicule_Modele,
+        EXTRACT(EPOCH FROM (MAX(Inspection.date_fin) - MIN(Inspection.date_debut))) AS temps_usage_total
     FROM
         liste_inspection_troncon
     JOIN
@@ -80,46 +83,65 @@ WITH Laser_Usage AS (
         Inspection_laser ON Inspection.id = Inspection_laser.inspection_id
     JOIN
         Profileur_laser ON Inspection_laser.profileur_laser_id = Profileur_laser.num_serie
+	JOIN
+		Inspection_vehicule ON Inspection.id = Inspection_vehicule.inspection_id
+	JOIN
+		Vehicule ON Inspection_vehicule.vehicule_id = Vehicule.immatriculation
     GROUP BY
         Reseau_routier.nom,
         Profileur_laser.num_serie,
         Profileur_laser.marque,
         Profileur_laser.modele,
+		Vehicule.immatriculation,
+		Vehicule.marque,
+		Vehicule.modele,
         Inspection.id
 )
 SELECT
-    nom_reseau,
+    laser_usage.nom_reseau AS nom_reseau,
     Laser_numero_serie,
     Laser_Marque,
     Laser_Modele,
-    total_usage_time,
-    TO_CHAR(INTERVAL '1 second' * total_usage_time, 'HH24:MI:SS') AS total_usage_time_formatted
+    TO_CHAR(INTERVAL '1 second' * laser_usage.temps_usage_total, 'HH24:MI:SS') AS temps_total_laser,
+    vehicule_usage.Vehicule_Immatriculation AS vehicule_immatriculation,
+    vehicule_usage.Vehicule_Marque AS vehicule_marque,
+    vehicule_usage.Vehicule_Modele AS vehicule_modele,
+    TO_CHAR(INTERVAL '1 second' * vehicule_usage.temps_usage_total, 'HH24:MI:SS') AS temps_total_voiture
 FROM (
     SELECT
         nom_reseau,
         Laser_numero_serie,
         Laser_Marque,
         Laser_Modele,
-        total_usage_time,
-        ROW_NUMBER() OVER (PARTITION BY nom_reseau ORDER BY total_usage_time DESC) AS laser_rank
-    FROM (
-        SELECT
-            nom_reseau,
-            Laser_numero_serie,
-            Laser_Marque,
-            Laser_Modele,
-            SUM(total_usage_time) AS total_usage_time
-        FROM
-            Laser_Usage
-        GROUP BY
-            nom_reseau,
-            Laser_numero_serie,
-            Laser_Marque,
-            Laser_Modele
-    ) grouped
-) ranked
-WHERE
-    laser_rank = 1;
+        SUM(temps_usage_total) AS temps_usage_total
+    FROM
+        Outil_Usage
+    GROUP BY
+        nom_reseau,
+        Laser_numero_serie,
+        Laser_Marque,
+        Laser_Modele
+    ORDER BY temps_usage_total DESC
+    LIMIT 1
+) AS laser_usage
+CROSS JOIN (
+    SELECT
+        nom_reseau,
+        Vehicule_Immatriculation,
+        Vehicule_Marque,
+        Vehicule_Modele,
+        SUM(temps_usage_total) AS temps_usage_total
+    FROM
+        Outil_Usage
+    WHERE nom_reseau = (SELECT nom_reseau FROM Outil_Usage LIMIT 1)
+    GROUP BY
+        nom_reseau,
+        Vehicule_Immatriculation,
+        Vehicule_Marque,
+        Vehicule_Modele
+    ORDER BY temps_usage_total DESC
+    LIMIT 1
+) AS vehicule_usage;
 
 
 -- =======================================================
