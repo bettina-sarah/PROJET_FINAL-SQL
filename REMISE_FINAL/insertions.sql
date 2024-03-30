@@ -1,3 +1,9 @@
+
+DROP VIEW IF EXISTS vue_longueur_inspection_par_troncon CASCADE;
+DROP VIEW IF EXISTS vue_inspection_vehicule_laser_employe CASCADE;
+DROP VIEW IF EXISTS vue_inspection_stats CASCADE;
+
+
 -- ************ INSERT BETTINA: poste, departement, employe
 
 -- *** POSTE:
@@ -81,8 +87,6 @@ CREATE OR REPLACE TRIGGER ajouter_liste_troncon_inspection_trig
 
 
 -- ********************************** Procedure FRANK
-
--- *********************************** FONCTION FRANK *****************************************
 -- Fonction pour ajouter des inspection !!!! les troncons d'une inspection ne sont INSERT par cette procédure !!!
 CREATE OR REPLACE PROCEDURE nouvelle_inspection(
 	nom_conducteur VARCHAR(32),
@@ -162,7 +166,7 @@ INSERT INTO liste_reseau_troncon_intersection (reseau_id, troncon_id, intersecti
             (1, 3, 10002, 10003),
             (1, 3, 10003, 10002);
 
--- INSERT FRANK
+-- ***************************************************** INSERT FRANK
 
 INSERT INTO Profileur_laser (num_serie, marque, modele)
     VALUES  ('POW-PEW-13212','POWERMAN','FULLPEW'),
@@ -234,7 +238,7 @@ INSERT INTO liste_inspection_troncon(inspection_id, troncon_id)
 
 -- **************************** VUE Frank****************************
 
-DROP VIEW IF EXISTS vue_longueur_inspection_par_troncon CASCADE;
+
 CREATE VIEW vue_longueur_inspection_par_troncon AS
 SELECT 
 lit.inspection_id AS Inspection_id,
@@ -249,7 +253,6 @@ SUM(tr.longueur*lit.voie) AS Total
 				ORDER BY lit.inspection_id;
 
 
-DROP VIEW IF EXISTS vue_inspection_stats CASCADE;
 CREATE VIEW vue_inspection_stats AS
 SELECT 
 vlit.inspection_id AS inspection_id, 
@@ -264,7 +267,7 @@ ORDER BY inspection_id;
 
 -- **************************** VUE Bettina ****************************
 
-DROP VIEW IF EXISTS vue_inspection_vehicule_laser_employe CASCADE;
+
 CREATE VIEW vue_inspection_vehicule_laser_employe AS
 	SELECT 
     inspection.id AS inspection_id,
