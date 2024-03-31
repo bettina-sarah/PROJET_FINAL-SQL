@@ -101,12 +101,6 @@ CREATE TABLE Inspection_laser(
     profileur_laser_id      CHAR(16)    NOT NULL      
 );
 
--- CREATE TABLE liste_inspection_laser(
---     id                      SERIAL      PRIMARY KEY,
-    
---     inpsection_laser_id     INTEGER      NOT NULL      
--- );
-
 CREATE TABLE liste_inspection_troncon(
     id                      SERIAL      PRIMARY KEY,
     inspection_id           INTEGER      NOT NULL,
@@ -151,8 +145,6 @@ CREATE TABLE Employe (
 	
 	CONSTRAINT contr_embauche CHECK (date_embauche BETWEEN '2018-01-01' AND CURRENT_DATE),
 	CONSTRAINT contr_salaire CHECK (salaire_horaire BETWEEN 15.00 AND 250.00)
--- 	CONSTRAINT contr_poste CHECK (poste IN (SELECT poste_nom FROM Poste)),
--- 	CONSTRAINT contr_dept CHECK (departement IN (SELECT departement_nom FROM Departement))
 );
 									 
 									 
@@ -193,18 +185,6 @@ CREATE TABLE Inspection (
 	-- ~ signale que le string suivant est du regex; ^ et $ debut et fin
 );
 
--- Création de la table liste_inspection_info_vehicule
--- CREATE TABLE liste_inspection_info_vehicule (
---     id SERIAL PRIMARY KEY,
---     inspection_id INTEGER	NOT NULL,
---     inspection_vehicule_id INTEGER		NOT NULL
--- );
-
-
-
-
-
-
 -- *************** FOREIGN KEYS ***************************
 
 -- Foreign Keys Emeric
@@ -218,7 +198,6 @@ ALTER TABLE liste_reseau_troncon_intersection ADD CONSTRAINT fk_intersection_fin
 ALTER TABLE IF EXISTS liste_inspection_troncon DROP CONSTRAINT IF EXISTS fk_inspection_id__inspection;
 ALTER TABLE IF EXISTS liste_inspection_troncon DROP CONSTRAINT IF EXISTS fk_troncon_id__troncon;
 ALTER TABLE IF EXISTS Inspection_laser DROP CONSTRAINT IF EXISTS fk_inspection_id__inspection;
--- ALTER TABLE IF EXISTS liste_inspection_laser DROP CONSTRAINT IF EXISTS fk_inpsection_laser_id__Inspection_laser;
 ALTER TABLE IF EXISTS Inspection_laser DROP CONSTRAINT IF EXISTS fk_employe_id__employe;
 ALTER TABLE IF EXISTS Inspection_laser DROP CONSTRAINT IF EXISTS fk_profileur_laser_id__Inspection_laser;
 
