@@ -2,23 +2,23 @@
 -- =======================================================
 -- Requête #5
 -- Objectif : Pour une inspection donnée, combien de kilomètres ont été parcourus.
--- Évaluation : Termnié, fait avec ma vue_longueur_inspection_par_troncon
+-- Évaluation : Terminé, fait avec ma vue_longueur_inspection_par_troncon
 -- Réalisé par : Francois Bouchard
 -- ...
 -- =======================================================
-DROP VIEW IF EXISTS vue_longueur_inspection_par_troncon CASCADE;
-CREATE VIEW vue_longueur_inspection_par_troncon AS
-SELECT 
-lit.inspection_id AS Inspection_id,
-lit.troncon_id AS Troncon_id,
-lit.voie AS Voie,
-tr.longueur AS Longueur,
-SUM(tr.longueur*lit.voie) AS Total
-	FROM liste_inspection_troncon AS "lit"
-	INNER JOIN troncon AS "tr" 
-		ON tr.id = lit.troncon_id
-				GROUP BY  lit.troncon_id, lit.voie, tr.longueur, lit.inspection_id
-				ORDER BY lit.inspection_id;
+
+-- CREATE OR REPLACE VIEW vue_longueur_inspection_par_troncon AS
+-- SELECT 
+-- lit.inspection_id AS Inspection_id,
+-- lit.troncon_id AS Troncon_id,
+-- lit.voie AS Voie,
+-- tr.longueur AS Longueur,
+-- SUM(tr.longueur*lit.voie) AS Total
+-- 	FROM liste_inspection_troncon AS "lit"
+-- 	INNER JOIN troncon AS "tr" 
+-- 		ON tr.id = lit.troncon_id
+-- 				GROUP BY  lit.troncon_id, lit.voie, tr.longueur, lit.inspection_id
+-- 				ORDER BY lit.inspection_id;
 				
 SELECT Inspection_id, ROUND(SUM(Total/1000),2)|| ' Km' AS "Distance totale de l''inspection"  FROM vue_longueur_inspection_par_troncon
 WHERE inspection_id = 1
@@ -38,19 +38,17 @@ GROUP BY Inspection_id;
 -- ...
 -- =======================================================
 
-DROP VIEW IF EXISTS vue_inspection_stats CASCADE;
-CREATE VIEW vue_inspection_stats AS
-SELECT 
-vlit.inspection_id AS inspection_id, 
-ROUND(SUM(vlit.Total/1000),2) AS Distance_totale_KM,
-SUM(ins.date_fin - ins.date_debut) AS Duree_totale,
-ROUND(SUM(vlit.Total/1000)*1.55,2) AS Cout_total
-FROM vue_longueur_inspection_par_troncon AS vlit
-INNER JOIN Inspection AS ins
-ON ins.id = vlit.inspection_id
-GROUP BY inspection_id
-ORDER BY inspection_id;
-
+-- CREATE OR REPLACE VIEW vue_inspection_stats AS
+-- SELECT 
+-- vlit.inspection_id AS inspection_id, 
+-- ROUND(SUM(vlit.Total/1000),2) AS Distance_totale_KM,
+-- (ins.date_fin - ins.date_debut) AS Duree_totale,
+-- ROUND(SUM(vlit.Total/1000)*1.55,2) AS Cout_total
+-- FROM vue_longueur_inspection_par_troncon AS vlit
+-- INNER JOIN Inspection AS ins
+-- ON ins.id = vlit.inspection_id
+-- GROUP BY inspection_id, ins.date_fin, ins.date_debut
+-- ORDER BY inspection_id;
 
 SELECT 
 vis.inspection_id AS id,
@@ -72,11 +70,10 @@ ON empl.id = vivle.employe_id_laser;
 
 -- =======================================================
 -- Requête #7
--- Objectif : 
+-- Objectif : Afficher la distance parcourue, le nombre d'heure d'utilisation et le ratio km/h que possède globalement nos vehicule de marque/modele 'Honda Civic', possède une requête corrélé et une vue
+-- 			  3 tables dans la requete + 2 tables dans la vue (qui elle-même utilise une autre vue qui à 2 tables)
 -- Évaluation : Termniné
 -- Réalisé par : Francois Bouchard
--- Afficher la distance parcourue, le nombre d'heure d'utilisation et le ratio km/h que possède globalement nos vehicule de marque/modele 'Honda Civic', possède une requête corrélé et une vue
--- 3 tables dans la requete + 2 tables dans la vue (qui elle-même utilise une autre vue qui à 2 tables)
 -- =======================================================
 
 
